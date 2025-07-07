@@ -1,6 +1,6 @@
 // The goal of the test is to ensure that postSlice has the correct initial state when the app starts. 
 
-import postSlice from './postSlice';
+import postSlice, {setLoading} from './postSlice';
 
 describe ('postSlice', () => {
     it ("should return the initial state", () => {
@@ -21,12 +21,22 @@ describe ('postSlice', () => {
 
         const action = {
             type: 'posts/setPosts',
-            payload: mockData
+            payload: mockData,
         };
 
         const newState = postSlice(undefined, action);
 
         expect(newState.posts).toEqual(mockData);
+    });
+
+    it ("should update loading status when setLoading is true", () => {
+        const loading = true;
+
+        const action = setLoading(loading);
+
+        const newState = postSlice(undefined, action);
+
+        expect(newState.isLoading).toEqual(loading);
     })
 });
 
