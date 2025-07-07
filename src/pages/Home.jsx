@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from "../features/posts/postSlice.js";
+import PostCard from "../components/PostCard";
 
 const Home = () => {
   // Set up local state
@@ -39,9 +40,7 @@ const Home = () => {
       {hasError && <p>Oops! Something went wrong.</p>}
 
       {posts.map((post) => (
-        <div key={post.id}>
-          <h3>{post.title}</h3>
-        </div>
+        <PostCard key={post.id} post={post}/>
       ))}
     </div>
   );
