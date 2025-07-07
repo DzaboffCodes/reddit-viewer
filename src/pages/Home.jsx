@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from 'features/posts/postSlice.js'; 
+import { fetchPosts } from "../features/posts/postSlice.js";
 
 const Home = () => {
   // Set up local state
