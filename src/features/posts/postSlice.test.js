@@ -51,38 +51,40 @@ describe ('postSlice', () => {
     })
 });
 
-// ...existing code...
 
-describe('fetchPosts thunk', () => {
-    it('should dispatch loading, setPosts, and stop loading on success', async () => {
-        const dispatch = jest.fn();
-        const getState = () => {};
+describe('fetchPosts thunk with search term', () => {
+  it('should fetch posts based on a search term and dispatch the correct actions', async () => {
+    const dispatch = jest.fn();
+    const getState = () => {};
 
-        // Mocked Reddit API Response
-        const mockData = {
-            data: {
-                children: [
-                    { data: { id: '1', title: "Test Post 1" } },
-                    { data: { id: '2', title: "Test Post 2" } },
-                ],
-            },
-        };
+    const searchTerm = 'cake recipes';
+    const encodedTerm = encodeURIComponent(searchTerm);
 
-        // Mock Fetch 
-        global.fetch = jest.fn(() =>
-            Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve(mockData),
-            })
-        );
+    const mockData = {
+      data: {
+        children: [
+          { data: { id: '1', title: 'Cake Recipe 1' } },
+          { data: { id: '2', title: 'Cake Recipe 2' } },
+        ],
+      },
+    };
 
-        await fetchPosts()(dispatch, getState, undefined);
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockData),
+      })
+    );
 
-        expect(dispatch).toHaveBeenCalledWith(setLoading(true));
-        expect(dispatch).toHaveBeenCalledWith(setPosts([
-            { id: '1', title: "Test Post 1" },
-            { id: '2', title: "Test Post 2" },
-        ]));
-        expect(dispatch).toHaveBeenCalledWith(setLoading(false));
-    });
+    await fetchPosts(searchTerm)(dispatch, getState);
+
+    expect(fetch).toHaveBeenCalledWith(`https://www.reddit.com/search.json?q=${encodedTerm}`);
+    expect(dispatch).toHaveBeenCalledWith(setLoading(true));
+    expect(dispatch).toHaveBeenCalledWith(setPosts([
+      { id: '1', title: 'Cake Recipe 1' },
+      { id: '2', title: 'Cake Recipe 2' },
+    ]));
+    expect(dispatch).toHaveBeenCalledWith(setLoading(false));
+  });
 });
+

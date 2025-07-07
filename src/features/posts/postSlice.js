@@ -7,23 +7,33 @@ const initialState = {
     hasError: false,
 };
 
-export const fetchPosts = createAsyncThunk('posts/fetchposts', async (_, thunkAPI) => {
+export const fetchPosts = createAsyncThunk(
+  'posts/fetchPosts',
+  async (searchTerm = '', thunkAPI) => {
     const { dispatch } = thunkAPI;
-
     try {
-        dispatch(setLoading(true));
-        const response = await fetch('https.//www.reddit.com/r/popular.jason');
-        const json = await response.json();
+      dispatch(setLoading(true));
+      let url = '';
 
-        const posts = json.data.children.map((child) => child.data);
+      if (searchTerm) {
+        url = `https://www.reddit.com/search.json?q=${encodeURIComponent(searchTerm)}`;
+      } else {
+        url = 'https://www.reddit.com/r/popular.json';
+      }
 
-        dispatch(setPosts(posts));
-        dispatch(setLoading(false));
+      const response = await fetch(url);
+      const json = await response.json();
+      const posts = json.data.children.map(child => child.data);
+
+      dispatch(setPosts(posts));
+      dispatch(setLoading(false));
     } catch (error) {
-        dispatch(setError(true));
-        dispatch(setLoading(false));
+      dispatch(setError(true));
+      dispatch(setLoading(false));
     }
-})
+  }
+);
+
 
 const postSlice = createSlice ({
     name: 'posts',
