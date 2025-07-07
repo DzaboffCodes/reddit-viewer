@@ -1,6 +1,7 @@
 // The goal of the test is to ensure that postSlice has the correct initial state when the app starts. 
 
-import postSlice, {setLoading, setError} from './postSlice';
+import postSlice, {setPosts, setLoading, setError} from './postSlice';
+import { fetchPosts } from './postSlice'; 
 
 describe ('postSlice', () => {
     it ("should return the initial state", () => {
@@ -50,4 +51,38 @@ describe ('postSlice', () => {
     })
 });
 
+// ...existing code...
 
+describe('fetchPosts thunk', () => {
+    it('should dispatch loading, setPosts, and stop loading on success', async () => {
+        const dispatch = jest.fn();
+        const getState = () => {};
+
+        // Mocked Reddit API Response
+        const mockData = {
+            data: {
+                children: [
+                    { data: { id: '1', title: "Test Post 1" } },
+                    { data: { id: '2', title: "Test Post 2" } },
+                ],
+            },
+        };
+
+        // Mock Fetch 
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve(mockData),
+            })
+        );
+
+        await fetchPosts()(dispatch, getState, undefined);
+
+        expect(dispatch).toHaveBeenCalledWith(setLoading(true));
+        expect(dispatch).toHaveBeenCalledWith(setPosts([
+            { id: '1', title: "Test Post 1" },
+            { id: '2', title: "Test Post 2" },
+        ]));
+        expect(dispatch).toHaveBeenCalledWith(setLoading(false));
+    });
+});

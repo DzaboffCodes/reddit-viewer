@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 
 
 const initialState = {
@@ -6,6 +6,24 @@ const initialState = {
     isLoading: false,
     hasError: false,
 };
+
+export const fetchPosts = createAsyncThunk('posts/fetchposts', async (_, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+
+    try {
+        dispatch(setLoading(true));
+        const response = await fetch('https.//www.reddit.com/r/popular.jason');
+        const json = await response.json();
+
+        const posts = json.data.children.map((child) => child.data);
+
+        dispatch(setPosts(posts));
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setError(true));
+        dispatch(setLoading(false));
+    }
+})
 
 const postSlice = createSlice ({
     name: 'posts',
