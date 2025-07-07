@@ -66,3 +66,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.post-thumbnail {
+  max-width: 100%;   /* max width of the container */
+  height: auto;      /* keep aspect ratio */
+  border-radius: 8px;
+  margin-top: 8px;
+}

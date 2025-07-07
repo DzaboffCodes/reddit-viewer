@@ -10,8 +10,7 @@ const PostCard = ({ post }) => {
     const formattedDate = date.toLocaleString();
 
     // Handle the thumbnail 
-    const isValidThumbnail = thumbnail && thumbnail.startsWith('http');
-    {isValidThumbnail && <img src={thumbnail} alt="Post thumbnail" />}
+    const isValidThumbnail = post.thumbnail && post.thumbnail.startsWith('http');
 
 
 
@@ -19,11 +18,12 @@ const PostCard = ({ post }) => {
         <article> 
             {/* Post Title */}
             <h2>{title}</h2>
-            
+
             {/* Show thumbnail if valid */}
-            {isValidThumbnail && (
-                <img src={thumbnail} alt="Post thumbnail" className="post-thumbnail" />
-            )}
+           <img src={isValidThumbnail ? thumbnail : '/fallback.png'}
+                alt="Post thumbnail" 
+                className='post-thumbnail'
+                />
 
             {/* MetaData: author, subreddit, and date */}
             <p> 
