@@ -16,9 +16,12 @@ const postSlice = createSlice ({
         },
         setLoading(state, action) {
             state.isLoading = action.payload;
-        }
+        },
+        setError(state, action) {
+            state.hasError = action.payload;
+        },
     }
-})
+});
 
-export const { setPosts, setLoading } = postSlice.actions;
+export const { setPosts, setLoading, setError} = postSlice.actions;
 export default postSlice.reducer;
