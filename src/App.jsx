@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import FilterBar from './components/FilterBar';
 import Home from './pages/Home';
+import PostDetail from './pages/PostDetail';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
         <FilterBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* More routes can go here */}
+          <Route path="/post/:subreddit/:id" element={<PostDetail />} />
         </Routes>
       </div>
     </Router>
