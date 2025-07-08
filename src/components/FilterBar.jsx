@@ -18,7 +18,8 @@ const FilterBar = () => {
     };
 
     return (
-        <div className="fitler-bar"> 
+        <div className="filter-bar"> 
+            <h3>Categories</h3>
             {filters.map((filter) => (
                 <button
                     key={filter.subreddit}
