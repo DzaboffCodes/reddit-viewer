@@ -12,7 +12,7 @@ const SearchBar = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="search-bar">
       <input
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
