@@ -3,10 +3,12 @@
   line-height: 1.5;
   font-weight: 400;
 
-  --color-bg: #F7F1E1;
-  --color-primary: #FF6B35;
-  --color-text: #2C3E50;
-  --color-accent: #FFA07A;
+  --color-bg: #232946;
+  --color-primary: #3e6ff4;
+  --color-text: #eaeaea;
+  --color-accent: #eebbc3;
+  --color-card: #121629;
+  --color-secondary-text: #b8c1ec;
 }
 
 body {
@@ -39,7 +41,7 @@ h1 {
 
 button {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-text);
   border: none;
   padding: 8px 14px;
   border-radius: 4px;
@@ -50,7 +52,9 @@ button {
 }
 button:hover {
   background-color: var(--color-accent);
+  color: var(--color-card);
 }
+
 button:focus,
 button:focus-visible {
   outline: 3px auto var(--color-accent);
@@ -68,8 +72,9 @@ input {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--color-card);   /* Use dark card background */
+  color: var(--color-text);              /* Use light text */
+  border-bottom: 1px solid #232946;      /* Subtle border */
   gap: 20px;
   flex-wrap: wrap;
 }
@@ -147,10 +152,11 @@ input {
 
 .main-layout > *:last-child {
   flex: 1;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* This centers children horizontally */
+  justify-content: flex-start;
+  padding: 1rem;
 }
 
 /* Reddit-like post card */
@@ -165,6 +171,25 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.reddit-post-card, article {
+  background: var(--color-card);
+  color: var(--color-text);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(62,111,244,0.08);
+  padding: 2rem 2rem 1.5rem 2rem;
+  margin-bottom: 32px;
+  max-width: 540px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.reddit-post-card:hover, article:hover {
+  box-shadow: 0 4px 16px rgba(62,111,244,0.16);
 }
 
 .post-meta {
@@ -207,8 +232,8 @@ input {
   height: 340px;
   object-fit: cover;
   border-radius: 12px;
-  background: #f8f8f8;
-  box-shadow: 0 1px 8px rgba(44,62,80,0.10);
+  background: #232946;
+  box-shadow: 0 1px 8px rgba(62,111,244,0.10);
   display: block;
 }
 
@@ -223,20 +248,21 @@ input {
 
 .filter-bar {
   display: flex;
-  flex-direction: column;    /* Stack buttons vertically */
-  gap: 12px;                 /* Space between buttons */
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 16px;
   padding: 16px 0;
-  background: #fff;
+  background: var(--color-card);         /* Use dark card background */
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
-  align-items: stretch;      /* Make buttons full width */
+  box-shadow: 0 2px 8px rgba(62,111,244,0.06);
+  align-items: stretch;
+  color: var(--color-text);              /* Use light text */
 }
 
 .filter-bar button {
-  width: 100%;               /* Full width buttons */
+  width: 100%;
   padding: 12px 0;
-  background-color: #eee;
+  background-color: var(--color-bg);     /* Slightly lighter than card */
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -277,12 +303,26 @@ input {
 }
 
 .post-detail {
+  width: 100%;
   max-width: 700px;
-  margin: auto;
-  padding: 1rem;
-  background: #fff;
+  background: var(--color-card);
+  color: var(--color-text);
+  padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  box-shadow: 0 2px 8px rgba(62,111,244,0.08);
+  box-sizing: border-box;
+  margin: 2rem auto;                  /* Center horizontally with margin */
+  display: flex;
+  flex-direction: column;
+  align-items: center;                /* Center children horizontally */
+}
+
+.post-detail h2,
+.post-detail .post-title,
+.post-detail .post-stats,
+.post-detail .post-meta {
+  text-align: center;
+  width: 100%;
 }
 
 .post-header {
@@ -311,8 +351,12 @@ input {
 }
 
 .comments-section {
-  border-top: 1px solid #ddd;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto 0 auto;
   padding-top: 1rem;
+  border-top: 1px solid #232946;
+  text-align: left;
 }
 
 .comment {
@@ -326,8 +370,9 @@ input {
 
 .comment-body {
   font-size: 0.95rem;
-  color: #333;
+  color: var(--color-text);
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
@@ -347,18 +392,12 @@ input {
   }
 }
 
-article {
-  display: flex;
-  align-items: flex-start;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
-  padding: 1.2rem 1.5rem;
-  margin-bottom: 24px;
-  transition: box-shadow 0.2s;
-  gap: 20px;
-}
+
 
 article:hover {
   box-shadow: 0 4px 16px rgba(44,62,80,0.16);
+}
+
+.post-meta, .post-timestamp, .post-stats-centered, .post-author {
+  color: var(--color-secondary-text);
 }
