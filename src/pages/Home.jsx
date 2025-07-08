@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from "../features/posts/postSlice.js";
 import PostCard from "../components/PostCard";
 import SearchBar from "../components/SearchBar";
+import FilterBar from "../components/FilterBar"
 
 const Home = () => {
   // Set up Redux
@@ -19,6 +20,7 @@ const Home = () => {
       <h1>Reddit Viewer</h1>
 
       <SearchBar /> 
+      <FilterBar />
 
       {isLoading && <p>Loading...</p>}
       {hasError && <p>Oops! Something went wrong.</p>}
