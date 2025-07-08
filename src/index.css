@@ -201,3 +201,58 @@ button:focus-visible {
 .filter-bar li:hover {
   color: #ff4500;
 }
+
+.post-detail {
+  max-width: 700px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.post-header {
+  margin-bottom: 1rem;
+}
+
+.post-author {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.post-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.post-thumbnail {
+  max-width: 100%;
+  margin: 1rem 0;
+}
+
+.post-content {
+  margin: 1rem 0;
+}
+
+.post-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.comments-section {
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.comment {
+  margin-bottom: 1rem;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.comment-body {
+  font-size: 0.95rem;
+  color: #333;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPosts } from "../features/posts/postSlice.js";
+import { fetchPosts, fetchPostAndComments } from "../features/posts/postSlice.js";
 import PostCard from "../components/PostCard";
 import SearchBar from "../components/SearchBar";
 import FilterBar from "../components/FilterBar"

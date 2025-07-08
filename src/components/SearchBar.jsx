@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchPosts } from '../features/posts/postSlice';
+import { fetchPostAndComments } from '../features/posts/postSlice';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');

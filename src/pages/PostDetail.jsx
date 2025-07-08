@@ -1,54 +1,67 @@
+// src/pages/PostDetail.jsx
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts, fetchPostAndComments } from '../features/posts/postSlice';
 
 const PostDetail = () => {
-  const { subreddit, id } = useParams();
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const { subreddit, postId } = useParams();
+  const dispatch = useDispatch();
+
+  const { post, comments, isLoading, hasError } = useSelector((state) => state.posts);
 
   useEffect(() => {
-    const fetchPostData = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetch(`https://www.reddit.com/r/${subreddit}/comments/${id}.json`);
-        const json = await res.json();
+    console.log('Params:', subreddit, postId); // <-- Add this line
+    if (subreddit && postId) {
+      dispatch(fetchPostAndComments({ subreddit, postId }));
+    }
+  }, [dispatch, subreddit, postId]);
 
-        const postData = json[0].data.children[0].data;
-        const commentData = json[1].data.children.map(child => child.data);
+  if (isLoading) {
+    return <p>Loading post details...</p>;
+  }
 
-        setPost(postData);
-        setComments(commentData);
-        setIsLoading(false);
-      } catch (err) {
-        setHasError(true);
-        setIsLoading(false);
-      }
-    };
+  if (hasError) {
+    return <p>Oops! Something went wrong while loading post details.</p>;
+  }
 
-    fetchPostData();
-  }, [subreddit, id]);
-
-  if (isLoading) return <p>Loading post...</p>;
-  if (hasError || !post) return <p>Oops! Couldn't load the post.</p>;
+  if (!post) {
+    return <p>No post found.</p>;
+  }
 
   return (
-    <div className="post-detail">
-      <h2>{post.title}</h2>
-      <p>Posted by u/{post.author}</p>
-      <p>{post.selftext}</p>
-      <hr />
-      <h3>Comments</h3>
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.id}>
-            <strong>u/{comment.author}</strong>: {comment.body}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <article>
+      <header>
+        <h2>{post.title}</h2>
+        <p>Posted by {post.author}</p>
+      </header>
+
+      {post.thumbnail && post.thumbnail.startsWith('http') && (
+        <img src={post.thumbnail} alt="Post thumbnail" />
+      )}
+
+      {post.selftext && <p>{post.selftext}</p>}
+
+      <footer>
+        <p>Upvotes: {post.ups}</p>
+        <button>Comments ({post.num_comments})</button>
+      </footer>
+
+      <section>
+        <h3>Comments</h3>
+        {comments.length === 0 && <p>No comments yet.</p>}
+        <ul>
+          {comments.map((comment) => (
+            <li key={comment.id}>
+              <p><strong>{comment.author}</strong></p>
+              <p>{comment.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </article>
   );
 };
 
 export default PostDetail;
+

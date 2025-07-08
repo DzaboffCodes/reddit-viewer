@@ -1,7 +1,7 @@
 // The goal of the test is to ensure that postSlice has the correct initial state when the app starts. 
 
 import postSlice, {setPosts, setLoading, setError} from './postSlice';
-import { fetchPosts } from './postSlice'; 
+import { fetchPostAndComments } from './postSlice'; 
 
 describe ('postSlice', () => {
     it ("should return the initial state", () => {

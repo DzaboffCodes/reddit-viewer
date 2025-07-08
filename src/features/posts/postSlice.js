@@ -1,55 +1,88 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-    posts: [],
-    isLoading: false,
-    hasError: false,
+  posts: [],
+  post: null,           // Selected post details
+  comments: [],         // Comments for the selected post
+  isLoading: false,
+  hasError: false,
 };
 
+// Thunk to fetch a list of posts (for Home page)
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async (searchTerm = '', thunkAPI) => {
-    const { dispatch } = thunkAPI;
+  async (subreddit = '', thunkAPI) => {
     try {
-      dispatch(setLoading(true));
-      let url = '';
-
-      if (searchTerm) {
-        url = `https://www.reddit.com/search.json?q=${encodeURIComponent(searchTerm)}`;
-      } else {
-        url = 'https://www.reddit.com/r/popular.json';
-      }
-
+      const url = subreddit
+        ? `https://www.reddit.com/r/${subreddit}.json`
+        : `https://www.reddit.com/.json`;
       const response = await fetch(url);
       const json = await response.json();
-      const posts = json.data.children.map(child => child.data);
-
-      dispatch(setPosts(posts));
-      dispatch(setLoading(false));
+      return json.data.children.map(child => child.data);
     } catch (error) {
-      dispatch(setError(true));
-      dispatch(setLoading(false));
+      return thunkAPI.rejectWithValue();
     }
   }
 );
 
-
-const postSlice = createSlice ({
-    name: 'posts',
-    initialState,
-    reducers: { 
-        setPosts(state, action) {
-            state.posts = action.payload;
-        },
-        setLoading(state, action) {
-            state.isLoading = action.payload;
-        },
-        setError(state, action) {
-            state.hasError = action.payload;
-        },
+// Thunk to fetch post details and comments (for PostDetail page)
+export const fetchPostAndComments = createAsyncThunk(
+  'posts/fetchPostAndComments',
+  async ({ subreddit, postId }, thunkAPI) => {
+    try {
+      const url = `https://www.reddit.com/r/${subreddit}/comments/${postId}.json`;
+      const response = await fetch(url);
+      const json = await response.json();
+      console.log('Reddit API response:', json); // <-- Add this line
+      const post = json[0].data.children[0]?.data;
+      const comments = json[1].data.children
+        .filter(child => child.kind === 't1')
+        .map(child => child.data);
+      return { post, comments };
+    } catch (error) {
+      return thunkAPI.rejectWithValue();
     }
+  }
+);
+
+const postSlice = createSlice({
+  name: 'posts',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // Fetch posts
+      .addCase(fetchPosts.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = action.payload;
+        state.hasError = false;
+      })
+      .addCase(fetchPosts.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+      })
+      // Fetch post and comments
+      .addCase(fetchPostAndComments.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+        state.post = null;
+        state.comments = [];
+      })
+      .addCase(fetchPostAndComments.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.post = action.payload.post;
+        state.comments = action.payload.comments;
+        state.hasError = false;
+      })
+      .addCase(fetchPostAndComments.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+      });
+  },
 });
 
-export const { setPosts, setLoading, setError} = postSlice.actions;
 export default postSlice.reducer;

@@ -12,7 +12,7 @@ function App() {
         <FilterBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/post/:subreddit/:id" element={<PostDetail />} />
+          <Route path="/post/:subreddit/:postId" element={<PostDetail />} />
         </Routes>
       </div>
     </Router>
