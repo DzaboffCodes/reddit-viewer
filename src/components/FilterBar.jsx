@@ -17,9 +17,17 @@ const FilterBar = () => {
         dispatch(fetchPosts(subreddit));
     };
 
+    const handleHomeClick = () => {
+        setActiveFilter(null);
+        dispatch(fetchPosts());
+    }
+
     return (
         <div className="filter-bar"> 
             <h3>Categories</h3>
+            <button onClick={handleHomeClick} className={!activeFilter ? 'active' : ''}>
+                Home
+            </button>
             {filters.map((filter) => (
                 <button
                     key={filter.subreddit}
