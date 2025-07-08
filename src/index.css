@@ -148,6 +148,77 @@ input {
 .main-layout > *:last-child {
   flex: 1;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Reddit-like post card */
+.reddit-post-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+  padding: 2rem 2rem 1.5rem 2rem;
+  margin-bottom: 32px;
+  max-width: 540px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.post-subreddit {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.post-timestamp {
+  font-size: 0.95em;
+  color: #aaa;
+}
+
+.post-title {
+  margin: 0.5rem 0 1.2rem 0;
+  font-size: 1.3em;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.post-thumbnail-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.post-thumbnail-large {
+  width: 340px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #f8f8f8;
+  box-shadow: 0 1px 8px rgba(44,62,80,0.10);
+  display: block;
+}
+
+.post-stats-centered {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  font-size: 1.1em;
+  color: #555;
 }
 
 .filter-bar {
