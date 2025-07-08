@@ -17,10 +17,6 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Reddit Viewer</h1>
-
-      <SearchBar /> 
-      <FilterBar />
 
       {isLoading && <p>Loading...</p>}
       {hasError && <p>Oops! Something went wrong.</p>}
