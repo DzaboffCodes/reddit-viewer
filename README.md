@@ -42,7 +42,7 @@ A modern, React + Redux-powered Reddit client that lets you browse, filter, and 
    ```
 
 4. **Open your browser:**  
-   Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
+   Visit https://dzaboffcodes.github.io/reddit-viewer/
 
 ## Project Structure
 
