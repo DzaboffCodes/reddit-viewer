@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const fallbackImg = '/fallback.png';
+const fallbackImg = `${import.meta.env.BASE_URL}fallback.png`;
 
 const PostCard = ({ post }) => {
     const { id, title, author, created_utc, thumbnail, subreddit, subreddit_name_prefixed, ups, num_comments } = post;

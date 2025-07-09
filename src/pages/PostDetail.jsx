@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPostAndComments } from '../features/posts/postSlice';
 
-const fallbackImg = '/fallback.png';
+const fallbackImg = `${import.meta.env.BASE_URL}fallback.png`;
 
 const PostDetail = () => {
   const { subreddit, postId } = useParams();
