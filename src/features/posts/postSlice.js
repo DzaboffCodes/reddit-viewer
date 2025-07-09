@@ -6,6 +6,7 @@ const initialState = {
   comments: [],         // Comments for the selected post
   isLoading: false,
   hasError: false,
+  filter: null,
 };
 
 // Thunk to fetch a list of posts (for Home page)
@@ -48,7 +49,11 @@ export const fetchPostAndComments = createAsyncThunk(
 const postSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       // Fetch posts
@@ -85,4 +90,5 @@ const postSlice = createSlice({
   },
 });
 
+export const { setFilter } = postSlice.actions;
 export default postSlice.reducer;
