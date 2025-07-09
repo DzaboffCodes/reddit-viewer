@@ -89,4 +89,4 @@ MIT
 
 ---
 
-**Enjoy browsing Reddit with your
+**Enjoy browsing Reddit with your custom viewer!**
